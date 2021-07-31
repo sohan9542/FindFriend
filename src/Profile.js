@@ -17,18 +17,30 @@ const Profile = () => {
         axios.get(`${Api}/user`, { headers: { 'app-id': id } })
             .then(res => setUser(res.data.data.slice(0, 10)));
     }, [])
-    // const [Freq, setFreq] = useState(0)
-    function frendReq(how) {
-        console.log(how);
+    const [Freq, setFreq] = useState([])
+
+    function frendReq(user) {
+        const NewFriend = [...Freq, user]
+        setFreq(NewFriend)
+    }
+    const [rf, setRf] = useState([])
+    function removeFriend(user) {
+        const rFriend = [...rf, user]
+        setRf(rFriend)
+    }
+    const [crr, setCCR] = useState([])
+    function countCancelReq(count) {
+        const newCcr = [...crr, count]
+        setCCR(newCcr)
     }
     return (
 
         <div className="userContainer d-flex">
             <div style={{ margin: "10px", marginTop: '50px', width: "70%", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", paddingTop: '15px', paddingRight: '10px', borderRight: '1px solid gray', borderTop: '1px solid gray' }}>
-                {user.map(myuser => <OwnPro FrendReq={frendReq}  title={myuser.title} email={myuser.email} key={myuser.id} fname={myuser.firstName} lname={myuser.lastName} pic={myuser.picture} user={myuser}></OwnPro>)}
+                {user.map(myuser => <OwnPro countCancelReq={countCancelReq} removeFriend={removeFriend} FrendReq={frendReq}  title={myuser.title} email={myuser.email} key={myuser.id} fname={myuser.firstName} lname={myuser.lastName} pic={myuser.picture} user={myuser}></OwnPro>)}
             </div>
             <div className="total" style={{ marginTop: '50px', borderTop: '1px solid gray', width: '30%', borderLeft: '1px solid gray', padding: '20px' }}>
-               <CountF user = {user.length} ></CountF>
+               <CountF user = {user.length - rf.length} FreindRequest={Freq.length - crr.length}></CountF>
             </div>
         </div>
     )

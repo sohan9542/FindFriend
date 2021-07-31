@@ -8,30 +8,37 @@ import { useState } from 'react'
 />
 const OwnPro = (props) => {
     // console.log(props.user);
-    const [con, setCon] = useState('Connect')
     const [rem, setRem] = useState({})
     const [ConnectStyle, setConnectStyle] = useState({ marginRight: '80px' })
     const remo = { display: 'none' };
     const cStyle = {
-        backgroundColor: 'red',
-        color: 'white',
-        border: 'none',
-        outline: 'none'
+        display: 'none'
     }
-    let [fr, setFr] = useState([]);
+    const [show, setShow] = useState({display: 'none'})
+    const dblock={
+        display: 'block'
+    }
     function connect(user) {
-        setCon("Cancel Request")
         setRem(remo)
         setConnectStyle(cStyle)
-        setFr(...fr, user)
-        console.log(fr.length);
-    }
-    const [remove, setRemove] = useState({ width: '18rem', marginBottom: '20px' })
-    function remover() {
-        setRemove(remo);
+        props.FrendReq(user)
+        setShow(dblock)
 
     }
+    // console.log(fr);
+    const [remove, setRemove] = useState({ width: '18rem', marginBottom: '20px' })
+    function remover(user) {
+        setRemove(remo);
+        props.removeFriend(user)
+    }
+   
     
+    function hideme(user) {
+        setConnectStyle({display:'inline-block', marginRight: '80px'})
+        setShow(remo)
+        setRem({display:'inline-block'})
+        props.countCancelReq(user)
+    }
     return (
         <>
             <div className="card" style={remove}>
@@ -39,10 +46,10 @@ const OwnPro = (props) => {
                 <div className="card-body">
                     <h5 className="card-title">{props.title} {props.fname} {props.lname}</h5>
                     <p className="card-text">{props.email}</p>
-                    <button className="btn btn-success" onClick={() => connect(props.user)}  style={ConnectStyle}>{con}</button>
+                    <button className="btn btn-success" onClick={()=>connect(props.user)}  style={ConnectStyle}>Connect</button>
+                    <button className="btn btn-danger" onClick={()=> hideme(props.user)} style={show}>Cancel Request</button>
+                    <button className="btn btn-danger" onClick={()=> remover(props.user)} style={rem}>Remove</button>
 
-                    <button className="btn btn-danger" onClick={remover} style={rem}>Remove</button>
-                    
 
                 </div>
             </div>
